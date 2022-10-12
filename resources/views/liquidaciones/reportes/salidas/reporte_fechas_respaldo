@@ -1,0 +1,236 @@
+<h3>Reporte de Liquidaciones de Salidas</h3>
+<p>Desde: {{ date('d/m/Y',strtotime($fecha_inicial)) }}</p>
+<p>Hasta: {{ date('d/m/Y',strtotime($fecha_final)) }}</p>
+
+<table class="paleBlueRows" width="100%">
+	<thead>
+        <tr>
+          <th>Proveedor</th>
+          <th>Fecha</th>
+          <th>Liquidacion</th>
+          <th>Giro</th>
+          <th>Entrada</th>
+          <th>Contrato</th>
+          <th>Entrega</th>
+          <th>Placa</th>
+          <th>Producto</th>
+          <th>Kilos Liquidación</th>
+          <th>Descuento</th>
+          <th>Valor Arroba</th>
+          <th>Café Bruto</th>
+          <th>Valor Descuento</th>
+          <th>R/Fuente</th>
+          <th>Total Café</th>
+          <th>4xMil </th>
+          <th>Descrpción</th>
+          <th>Valor Giro</th>
+          <th>Valor Liquidación</th>
+          <th>Saldo Proveedor</th>
+        </tr>
+	</thead>
+	<tbody>
+        @foreach($data_reporte as $rows)
+            @php
+                $contador = 0;
+                $long = count($rows['proveedor']['data']);
+                $tot_a = 0;
+                $tot_b = 0;
+                $tot_c = 0;
+                $tot_d = 0;
+                $tot_e = 0;
+                $tot_f = 0;
+                $tot_g = 0;
+                $tot_h = 0;
+                $tot_i = 0;
+                $tot_j = 0;
+                $tot_k = 0;
+            @endphp
+            @foreach($rows['proveedor']['data'] as $index => $rowsx)
+                <tr>
+                    @if($contador==0)
+                        <td rowspan="{{ $long }}">
+						@php try{ @endphp
+							{{ $rows['proveedor']['info']->nombre }}
+						@php }catch(\Exception $e){} @endphp
+						</th>
+                    @endif
+                    <?php try{ ?>
+                        <?php $rowsx->entrada[0]->placa ?>
+                        <td>{{ date('d/m/Y',strtotime($rowsx->fecha_liquidacion)) }}</th>
+                        <td>{{ $rowsx->numero }}</th>
+                        <td>-</th>
+                        <td><?php try{ ?> {{ $rowsx->entrada[0]->numero_ticket }} <?php }catch(\Exception $e){ ?> - <?php } ?></th>
+                        <td><?php try{ ?> {{ $rowsx->contrato->numero }}<?php }catch(\Exception $e){ ?> - <?php } ?></th>
+                        <td><?php try{ ?> {{ $rowsx->centros->descripcion }} <?php }catch(\Exception $e){ ?> - <?php } ?></th>
+                        <td>{{ $rowsx->entrada[0]->placa }}</th>
+                        <td><?php try{ ?> {{ $rowsx->cafe->tipo_cafe }} <?php }catch(\Exception $e){ ?> - <?php } ?></th>
+                        <td>{{ number_format($rowsx->kilogramos,0,',','.') }}</th>
+                        <td>-{{ $rowsx->descuento_factor }}</th>
+                        <td>{{ number_format($rowsx->contrato->precio_arroba,0,',','.') }}</th>
+                        <td>{{ number_format($rowsx->valor_bruta+$rowsx->valor_descuento,0,',','.') }}</th>
+                        <td>{{ number_format($rowsx->valor_descuento,0,',','.') }}</th>
+                        <td>{{ number_format($rowsx->valor_retencion_fuente,0,',','.') }}</th>
+                        <td>{{ number_format($rowsx->valor_bruta,0,',','.') }}</th>
+                        <td>{{ number_format($rowsx->valor_retencion_4_mil,0,',','.') }}</th>
+                        <td>Valor Liquidacion</th>
+                        <td>0</th>
+                        <td>{{ number_format($rowsx->total,0,',','.') }}</th>
+						@if($index>0)
+							<td>{{ number_format($tot_i-$rowsx->total,0,',','.') }}</th>
+						@else
+							<td>{{ number_format($tot_i-$rowsx->total,0,',','.') }}</th>
+						@endif
+						
+						
+                    <?php }catch(\Exception $e){ ?>
+                        <td>{{ date('d/m/Y',strtotime($rowsx->fecha_giro)) }}</th>
+                        <td></th>
+                        <td>GIR{{ $rowsx->id }}</th>
+                        <td></th>
+                        <td></th>
+                        <td></th>
+                        <td></th>
+                        <td></th>
+                        <td></th>
+                        <td></th>
+                        <td></th>
+                        <td></th>
+                        <td></th>
+                        <td></th>
+                        <td></th>
+                        <td></th>
+                        <td>Valor Liquidacion</th>
+						@php try{ @endphp
+							<td>{{ number_format($rowsx->valor,0,',','.') }}</th>
+						@php }catch(\Exception $e){ @endphp
+							<td>{{ $rowsx->valor }}</th>
+						@php } @endphp
+
+                        <td>0</th>
+						@if($index>0)
+							@php try{ @endphp
+							<td>{{ number_format($tot_i+$rowsx->valor,0,',','.') }}</th>
+							@php }catch(\Exception $e){} @endphp
+						@else
+							<td>{{ number_format($rowsx->valor,0,',','.') }}</th>
+						@endif
+                        
+                    <?php } ?>
+                </tr>
+
+                @php
+                    try{
+                        $rowsx->entrada[0]->numero_ticket;
+                        $tot_a+=$rowsx->kilogramos;
+                        $tot_b+=$rowsx->descuento_factor;
+                        $tot_c+=$rowsx->valor_arroba;
+                        $tot_d+=$rowsx->valor_bruta+$rowsx->valor_descuento;
+                        $tot_e+=$rowsx->valor_descuento;
+                        $tot_f+=$rowsx->valor_retencion_fuente;
+                        $tot_g+=$rowsx->valor_bruta;
+                        $tot_h+=$rowsx->valor_retencion_4_mil;
+                        $tot_j+=$rowsx->total;
+                        $tot_i-=$rowsx->total;
+                        $tot_k-=0;
+                    }catch(\Exception $e){
+						try{
+							$tot_i+=$rowsx->valor;
+							$tot_k+=$rowsx->valor;
+						}catch(\Exception $e){}
+                        $tot_j+=0;
+                    }
+                    $contador++;
+                @endphp
+
+            @endforeach
+
+                <tr class="totales">
+                    <td colspan="9">TOTALES</td>
+                    <td>{{ number_format($tot_a,0,',','.') }}</td>
+                    <td></td>
+                    <td></td>
+                    <td>{{ number_format($tot_d,0,',','.') }}</td>
+                    <td>{{ number_format($tot_e,0,',','.') }}</td>
+                    <td>{{ number_format($tot_f,0,',','.') }}</td>
+                    <td>{{ number_format($tot_g,0,',','.') }}</td>
+                    <td>{{ number_format($tot_h,0,',','.') }}</td>
+                    <td></td>
+                    <td>{{ number_format($tot_k,0,',','.') }}</td>
+                    <td>{{ number_format($tot_j,0,',','.') }}</td>
+                    <td>{{ number_format($tot_i,0,',','.') }}</td>
+                </tr>
+
+		@endforeach
+	</tbody>
+
+</table>
+
+<style>
+table.paleBlueRows {
+  font-family: "Arial";
+  border: 1px solid #000;
+  text-align: center;
+  border-collapse: collapse;
+}
+table.paleBlueRows td, table.paleBlueRows th {
+  border: 1px solid #000;
+}
+table.paleBlueRows tbody td {
+  font-size: 11px;
+  padding: 5px;
+}
+table.paleBlueRows tr:nth-child(even) {
+  background: #D0E4F5;
+}
+table.paleBlueRows thead {
+  background: #0B6FA4;
+  border-bottom: 2px solid #000;
+}
+table.paleBlueRows thead th {
+  font-size: 10px !important;
+  font-weight: bold;
+  color: white;
+  text-align: center;
+  padding: 5px;
+  border-left: 2px solid #000;
+}
+	.totales td{
+		background:#0B6FA4; color:white
+	}
+	
+@media print {
+	table.paleBlueRows thead th {
+	  font-size: 10px !important;
+	  font-weight: bold;
+	  color: black;
+	  text-align: center;
+	  padding: 5px;
+	  border-left: 2px solid #000;
+	}
+	table.paleBlueRows tfoot {
+	  font-size: 12px;
+	  font-weight: bold;
+	  color: #333333;
+	  background: #D0E4F5;
+	  border-top: 2px solid #444444;
+	}
+	.totales td{
+		background:#0B6FA4; color:black
+	}
+}
+
+table.paleBlueRows thead th:first-child {
+  border-left: none;
+}
+
+table.paleBlueRows tfoot {
+  font-size: 12px;
+  font-weight: bold;
+  color: #333333;
+  background: #D0E4F5;
+  border-top: 2px solid #444444;
+}
+table.paleBlueRows tfoot td {
+  font-size: 12px;
+}
+</style>

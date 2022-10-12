@@ -1,0 +1,218 @@
+@extends('template.main')
+
+@section('contenedor_principal')
+
+<script type="text/javascript" src="jquery/jquery.number.min.js"></script>
+ 
+ <form action="{{ route('realizar.pago') }}" method="post" class="frmc_0001" enctype="multipart/form-data">
+     
+     
+         {{ csrf_field() }}
+                        <div class="card border-0">
+                            <div class="card-body pt-0">
+       
+         <br>
+         <div class="form-row align-items-center">
+	         <div class="col-md-12 mb-1">
+	              <input type="text" class=" texto" name="documento" placeholder="RUT" required>
+	      </div>
+            <div class="col-md-5 mb-1">
+                
+               <input type="text"  class="texto" name="nombre" placeholder="CLIENTE" required>
+              
+            </div>
+             <div class="col-md-7 mb-1">
+                  <input type="text" class="texto " name="direccion" placeholder="DIRECCION" required>
+            </div>
+            <div class="col-md-7 mb-1">
+                  <input type="text" class="texto" name="correo" placeholder="E-MAIL" required>
+            </div>
+            <div class="col-md-7 mb-1">
+               <input type="number" class="texto" name="representante" placeholder="REPRESENTANTE" required>
+             
+            </div>
+            <div class="col-md-7 mb-1">
+               <input type="number" class="texto" name="telefono" placeholder="TELEFONO" required>
+             
+            </div>
+            <div class="col-md-7 mb-1">
+            <input type="number" class="texto " name="cargo" placeholder="CARGO" required>
+            </div>
+         </div> 
+        
+         <div class="form-row domicilio " style="display:none">
+                <div class="alert alert-danger col-md-12  mb-2 " role="alert" >
+                Recuerde que al llegar el domicilio debera pagar el valor del flete
+                </div>
+            <div class="col-md-12 mb-1">
+               <label  class="small text-muted mb-1" for="direccion">Direcccion domicilio</label>
+               <input type="text" class="form-control " name="direccion"  >
+              
+            </div>
+         
+         </div>
+         
+         <div class="alert alert-danger  mb-2 retiro_tienda" role="alert"  style="display:none">
+         victor hendrych 360 - providencia (oficina administrativa)
+         </div>
+         <div class="input-group mb-1">
+            <div class="input-group-prepend  mb-1">
+               <label class="input-group-text small text-muted " for="inputGroupSelect01">SERVICIO:</label>
+            </div>
+            <select class="custom-select forma_pago" name="forma_pago">
+               <option value="">SELECCIONE..</option>
+               <option value="1">LAMINA SEGURIDAD</option>
+               <option value="2">POLARIZADO</option>
+            </select>
+         </div>
+         <div class="form-row consignacion_cuenta" style="display:none">
+         <div class="alert alert-danger  mb-2" role="alert">
+         Al consignar el valor en la cuenta 1110194501 del Bnaco de Chile, <br>
+         Subir recibo de pago
+         <input type="file" name="c02"  class="form-control" accept="image/*"  multiple>
+         </div>
+         </div>
+        
+     <div class="card border-0 ">
+                            
+                            <div class="card-body pt-0">
+                            <div class="card-header card-2">
+                                <p class="card-text text-muted space">YOUR ORDER <span class=" small text-muted  cursor-pointer">EDIT SHOPPING BAG</span> </p>
+                            </div>
+                            <br>
+                                <div class="row justify-content-between">
+                                    
+                                    <div class="col-auto col-md-7">
+                                        <div class="media flex-column flex-sm-row"> <img class=" img-fluid" src="https://i.imgur.com/6oHix28.jpg" width="62" height="62">
+                                            <div class="media-body my-auto">
+                                                <div class="row ">
+                                                    <div class="col-auto">
+                                                        <p class="mb-0"><b>LAMINA SEGURIDAD</b></p><small class="text-muted">observaciones</small>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class=" pl-0 flex-sm-col col-auto my-auto">
+                                        <p class="boxed-1">2</p>
+                                    </div>
+                                    <div class=" pl-0 flex-sm-col col-auto my-auto ">
+                                        <p><b>$500.000</b></p>
+                                    </div>
+                                </div>
+                                <hr class="my-2">
+                                <div class="row justify-content-between">
+                                    <div class="col-auto col-md-7">
+                                        <div class="media flex-column flex-sm-row"> <img class=" img-fluid " src="https://i.imgur.com/9MHvALb.jpg" width="62" height="62">
+                                            <div class="media-body my-auto">
+                                                <div class="row ">
+                                                    <div class="col">
+                                                        <p class="mb-0"><b>POLARIZADO</b></p><small class="text-muted">descuento del 20%</small>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="pl-0 flex-sm-col col-auto my-auto">
+                                        <p class="boxed">1</p>
+                                    </div>
+                                    <div class="pl-0 flex-sm-col col-auto my-auto">
+                                        <p><b>$200.000</b></p>
+                                    </div>
+                                </div>
+                                <hr class="my-2">
+                                <div class="row justify-content-between">
+                                    <div class="col-auto col-md-7">
+                                        <div class="media flex-column flex-sm-row"> <img class=" img-fluid " src="https://i.imgur.com/6oHix28.jpg" width="62" height="62">
+                                            <div class="media-body my-auto">
+                                                <div class="row ">
+                                                    <div class="col">
+                                                        <p class="mb-0"><b>LAVADO</b></p><small class="text-muted">observaciones</small>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="pl-0 flex-sm-col col-auto my-auto">
+                                        <p class="boxed-1">2</p>
+                                    </div>
+                                    <div class="pl-0 flex-sm-col col-auto my-auto">
+                                        <p><b>$50.000</b></p>
+                                    </div>
+                                </div>
+                                <hr class="my-2">
+                                <div class="row ">
+                                    <div class="col">
+                                        <div class="row justify-content-between">
+                                            <div class="col-4">
+                                                <p class="mb-1"><b>neto</b></p>
+                                            </div>
+                                            <div class="flex-sm-col col-auto">
+                                                <p class="mb-1"><b>$250.000</b></p>
+                                            </div>
+                                        </div>
+                                        <div class="row justify-content-between">
+                                            <div class="col">
+                                                <p class="mb-1"><b>descuento</b></p>
+                                            </div>
+                                            <div class="flex-sm-col col-auto">
+                                                <p class="mb-1"><b>$ 5.000</b></p>
+                                            </div>
+                                        </div>
+                                        <div class="row justify-content-between">
+                                            <div class="col-4">
+                                                <p><b>Total</b></p>
+                                            </div>
+                                            <div class="flex-sm-col col-auto">
+                                                <p class="mb-1"><b>$200.000</b></p>
+                                            </div>
+                                        </div>
+                                        <hr class="my-0">
+                                    </div>
+                                </div>
+                            </div>
+            
+
+                             <div class="input-group-prepend  mb-1">
+               <label class="input-group-text small text-muted " for="inputGroupSelect01">Seleccione forma de pago:</label>
+            </div>
+            <select class="custom-select recibir_pedido" name="recibir_pedido">
+               <option value="">SELECCIONE..</option>
+               <option value="1">TRANSFERENCIA</option>
+               <option value="2">CREDITO</option>
+               <option value="2">EFECTIVO</option>
+            </select>
+         </div>
+                                      <p><textarea  class="form-control"  name="descripcion" cols="40" rows="5" placeholder="observaciones"></textarea></p>
+
+                             <input type="hidden" class="salida" name="id" />
+         <button style="display:none" class="act_form"></button>
+         <button  class="btn btn-success btn-block trigger_form"  target="frmc_0001">Enviar compra</button>
+         
+         <div class="row tabla_articulos">
+               </div>
+     
+      </form>
+                        </div>
+   
+   <style>
+       ::placeholder {
+  color: White;
+  font-weight: bold;
+
+  font-size: 1.5em;
+}
+
+ .texto{
+     border-style:outset;
+     font-size: 15pt; 
+     color:white; 
+     font-weight:bolder;
+     height:40px; 
+     background-color:black;"
+ }
+ 
+ 
+
+   </style>
+@stop
